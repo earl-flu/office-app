@@ -103,46 +103,6 @@ const props = defineProps({
                 </p>
               </div>
             </div>
-
-            <div
-              v-if="
-                employee.assigned_tasks && employee.assigned_tasks.length > 0
-              "
-              class="mt-5"
-            >
-              <h6 class="mb-3">Tasks Assigned by This Employee</h6>
-              <div class="table-responsive">
-                <table class="table table-sm">
-                  <thead>
-                    <tr>
-                      <th>Task Description</th>
-                      <th>Assigned To</th>
-                      <th>Time Spent</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="task in employee.assigned_tasks" :key="task.id">
-                      <td>{{ task.task_description }}</td>
-                      <td>{{ task.assigned_to_user?.full_name || "-" }}</td>
-                      <td>
-                        {{
-                          task.time_spent_minutes
-                            ? task.time_spent_minutes + " mins"
-                            : "-"
-                        }}
-                      </td>
-                      <td>
-                        <span v-if="task.completed_at" class="badge bg-success"
-                          >Completed</span
-                        >
-                        <span v-else class="badge bg-warning">Pending</span>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
           </div>
         </div>
       </div>

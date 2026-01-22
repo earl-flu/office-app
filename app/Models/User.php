@@ -59,13 +59,6 @@ class User extends Authenticatable
         return $this->belongsTo(Employee::class);
     }
 
-    /**
-     * Get tasks assigned to this user
-     */
-    public function tasks()
-    {
-        return $this->hasMany(Task::class, 'assigned_to_user_id');
-    }
 
     /**
      * Get full name attribute

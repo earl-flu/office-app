@@ -9,7 +9,6 @@ use App\Http\Controllers\PaperDashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\TagController;
-use App\Http\Controllers\TaskController;
 use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\UserApprovalController;
 use App\Http\Controllers\UserController;
@@ -60,7 +59,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('facilities', FacilityController::class)->except(['destroy']);
     Route::resource('programs', ProgramController::class)->except(['destroy']);
     Route::resource('employees', EmployeeController::class);
-    Route::resource('tasks', TaskController::class);
     Route::get('user-approvals', [UserApprovalController::class, 'index'])->name('user-approvals.index');
     Route::post('user-approvals/{user}/approve', [UserApprovalController::class, 'approve'])->name('user-approvals.approve');
     Route::delete('user-approvals/{user}/reject', [UserApprovalController::class, 'reject'])->name('user-approvals.reject');

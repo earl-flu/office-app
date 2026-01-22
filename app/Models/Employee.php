@@ -59,14 +59,6 @@ class Employee extends Model
     }
 
     /**
-     * Get tasks assigned by this employee
-     */
-    public function assignedTasks(): HasMany
-    {
-        return $this->hasMany(Task::class, 'assigned_by_employee_id');
-    }
-
-    /**
      * Get full name attribute
      */
     public function getFullNameAttribute(): string
