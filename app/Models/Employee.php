@@ -1,0 +1,77 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+
+class Employee extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'employee_id',
+        'first_name',
+        'middle_name',
+        'last_name',
+        'gender',
+        'suffix',
+        'division',
+        'program_id',
+        'facility_id',
+    ];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array<int, string>
+     */
+    protected $appends = [
+        'full_name',
+    ];
+
+
+    /**
+     * Get the program
+     */
+    public function program(): BelongsTo
+    {
+        return $this->belongsTo(Program::class);
+    }
+
+    /**
+     * Get the facility
+     */
+    public function facility(): BelongsTo
+    {
+        return $this->belongsTo(Facility::class);
+    }
+
+    /**
+     * Get the user account associated with this employee
+     */
+    public function user(): HasOne
+    {
+        return $this->hasOne(User::class);
+    }
+
+    /**
+     * Get tasks assigned by this employee
+     */
+    public function assignedTasks(): HasMany
+    {
+        return $this->hasMany(Task::class, 'assigned_by_employee_id');
+    }
+
+    /**
+     * Get full name attribute
+     */
+    public function getFullNameAttribute(): string
+    {
+        $name = trim("{$this->first_name} {$this->middle_name} {$this->last_name}");
+        return $this->suffix ? "{$name} {$this->suffix}" : $name;
+    }
+}
