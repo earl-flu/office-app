@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('employee_activities', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('employee_id')->constrained('employees')->onDelete('cascade');
+            $table->foreignId('activity_type_id')->constrained('activity_types')->onDelete('cascade');
+            $table->text('description');
+            $table->enum('status', ['pending', 'in_progress', 'finished', 'cancelled'])->default('pending');
+            $table->text('remarks')->nullable();
+            $table->integer('time_spent_minutes')->nullable()->comment('Time spent on activity in minutes');
             $table->timestamps();
         });
     }
