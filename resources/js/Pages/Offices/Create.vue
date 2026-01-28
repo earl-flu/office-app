@@ -3,8 +3,18 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, useForm } from "@inertiajs/vue3";
 import { useToast } from "vue-toastification";
 
+// Accept `facilityTypes` as a prop from the parent (Inertia)
+const props = defineProps({
+  facilityTypes: {
+    type: Array,
+    required: true,
+  },
+});
+
 const form = useForm({
   name: "",
+  abbreviation: "",
+  facility_type_id: null,
 });
 
 const submit = () => {
@@ -56,6 +66,42 @@ const submit = () => {
                 />
                 <div class="invalid-feedback d-block">
                   {{ form.errors.name }}
+                </div>
+              </div>
+              <div class="col-md-12">
+                <label for="abbreviation" class="form-label"
+                  >Abbreviation</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  v-model="form.abbreviation"
+                  id="abbreviation"
+                />
+                <div class="invalid-feedback d-block">
+                  {{ form.errors.abbreviation }}
+                </div>
+              </div>
+              <div class="col-md-12">
+                <label for="facility_type_id" class="form-label"
+                  >Facility Type</label
+                >
+                <select
+                  id="facility_type_id"
+                  class="form-select"
+                  v-model="form.facility_type_id"
+                >
+                  <option value="" disabled>Select facility type</option>
+                  <option
+                    v-for="type in facilityTypes"
+                    :key="type.id"
+                    :value="type.id"
+                  >
+                    {{ type.name }}
+                  </option>
+                </select>
+                <div class="invalid-feedback d-block">
+                  {{ form.errors.facility_type_id }}
                 </div>
               </div>
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\FacilityType;
 use App\Models\Office;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -14,7 +15,7 @@ class OfficeController extends Controller
      */
     public function index()
     {
-        $offices = Office::orderBy('search')
+        $offices = Office::orderBy('name')
             ->when(FacadesRequest::input('search'), function ($query, $search) {
                 $query->where('name', 'like', "%{$search}%")
                     ->orWhereHas('facilityType', function ($q) use ($search) {
@@ -36,6 +37,7 @@ class OfficeController extends Controller
      */
     public function create()
     {
+        // dd(FacilityType::orderBy('name')->get());
         return Inertia::render(
             'Offices/Create',
             ['facilityTypes' => FacilityType::orderBy('name')->get()]

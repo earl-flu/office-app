@@ -56,7 +56,7 @@ watch([search], (values) => {
 
     <div class="row">
       <div class="d-flex align-items-stretch">
-        <div class="card w-100 rounded-4">
+        <div class="card w-50 rounded-4">
           <div class="card-body">
             <div class="d-flex align-items-start justify-content-between mb-4">
               <div class="">
@@ -98,6 +98,7 @@ watch([search], (values) => {
                 <thead class="table-dark">
                   <tr>
                     <th>Office Name</th>
+                    <th>Abbreviation</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -106,6 +107,11 @@ watch([search], (values) => {
                     <td>
                       <div class="d-flex align-items-center gap-3">
                         <p class="mb-0 fw-bold">{{ office.name }}</p>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="d-flex align-items-center gap-3">
+                        <p class="mb-0 fw-bold">{{ office.abbreviation }}</p>
                       </div>
                     </td>
                     <td>

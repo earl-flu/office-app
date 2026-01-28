@@ -66,4 +66,66 @@ class Employee extends Model
         $name = trim("{$this->first_name} {$this->middle_name} {$this->last_name}");
         return $this->suffix ? "{$name} {$this->suffix}" : $name;
     }
+
+    /**
+     * Get all activities for the employee.
+     */
+    public function employeeActivities()
+    {
+        return $this->hasMany(EmployeeActivities::class, 'employee_id');
+    }
+
+    /**
+     * Scope a query to only include employees with activities in the employee_activities table of a given status.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string $status
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeWithActivityStatus($query, $status)
+    {
+        return $query->whereHas('employeeActivities', function ($q) use ($status) {
+            $q->where('status', $status);
+        });
+    }
+
+    /**
+     * Get all pending activities from the employee_activities table for this employee.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function pendingEmployeeActivities()
+    {
+        return $this->employeeActivities()->where('status', 'pending');
+    }
+
+    /**
+     * Get all in progress activities from the employee_activities table for this employee.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function inProgressEmployeeActivities()
+    {
+        return $this->employeeActivities()->where('status', 'in_progress');
+    }
+
+    /**
+     * Get all finished activities from the employee_activities table for this employee.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function finishedEmployeeActivities()
+    {
+        return $this->employeeActivities()->where('status', 'finished');
+    }
+
+    /**
+     * Get all cancelled activities from the employee_activities table for this employee.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function cancelledEmployeeActivities()
+    {
+        return $this->employeeActivities()->where('status', 'cancelled');
+    }
 }
