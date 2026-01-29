@@ -187,6 +187,12 @@ onBeforeUnmount(() => {
                 ><i class="material-icons-outlined">arrow_right</i>All</Link
               >
             </li>
+            <li :class="isActive(route().current('user-approvals.index'))">
+              <Link :href="route('user-approvals.index')"
+                ><i class="material-icons-outlined">arrow_right</i>For
+                Approval</Link
+              >
+            </li>
           </ul>
         </li>
       </ul>
