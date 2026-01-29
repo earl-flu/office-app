@@ -15,12 +15,13 @@ class OfficeController extends Controller
      */
     public function index()
     {
-        $offices = Office::orderBy('name')
+        $offices = Office::with('facilityType')
+            ->orderBy('name')
             ->when(FacadesRequest::input('search'), function ($query, $search) {
                 $query->where('name', 'like', "%{$search}%")
                     ->orWhereHas('facilityType', function ($q) use ($search) {
                         $q->where('name', 'like', "%{$search}%");
-                    });;
+                    });
             })
             ->paginate(5)
             ->withQueryString()
@@ -53,6 +54,7 @@ class OfficeController extends Controller
             'name' => 'required|unique:offices,name',
             'abbreviation' => 'nullable|string|max:255',
             'facility_type_id' => 'required|exists:facility_types,id',
+            'is_active' => 'boolean',
         ]);
 
         Office::create($validated);
@@ -75,8 +77,8 @@ class OfficeController extends Controller
     public function edit(Office $office)
     {
         return Inertia::render('Offices/Edit', [
-            'facility' => $office->load('facilityType'),
-            'office' => $office
+            'office' => $office,
+            'facilityTypes' => FacilityType::where('is_active', true)->get(['id', 'name'])
         ]);
     }
 
@@ -85,10 +87,12 @@ class OfficeController extends Controller
      */
     public function update(Request $request, Office $office)
     {
+
         $validated = $request->validate([
             'name' => 'required',
             'abbreviation' => 'nullable|string|max:255',
             'facility_type_id' => 'required|exists:facility_types,id',
+            'is_active' => 'boolean',
         ]);
 
         $office->update($validated);

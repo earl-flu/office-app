@@ -15,6 +15,7 @@ const form = useForm({
   name: "",
   abbreviation: "",
   facility_type_id: null,
+  is_active: true,
 });
 
 const submit = () => {
@@ -102,6 +103,23 @@ const submit = () => {
                 </select>
                 <div class="invalid-feedback d-block">
                   {{ form.errors.facility_type_id }}
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-check form-switch">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="is_active"
+                    v-model="form.is_active"
+                    :checked="form.is_active === true"
+                  />
+                  <label class="form-check-label" for="is_active">
+                    Active
+                  </label>
+                </div>
+                <div class="invalid-feedback d-block">
+                  {{ form.errors.is_active }}
                 </div>
               </div>
 

@@ -4,6 +4,10 @@ import { Head, useForm, Link } from "@inertiajs/vue3";
 import { useToast } from "vue-toastification";
 
 const props = defineProps({
+  facilityTypes: {
+    type: Object,
+    required: true,
+  },
   office: {
     type: Object,
     required: true,
@@ -12,6 +16,9 @@ const props = defineProps({
 
 const form = useForm({
   name: props.office.name,
+  abbreviation: props.office.abbreviation,
+  facility_type_id: props.office.facility_type_id,
+  is_active: props.office.is_active,
 });
 
 const submit = () => {
@@ -79,6 +86,60 @@ const submit = () => {
                 />
                 <div class="invalid-feedback d-block">
                   {{ form.errors.name }}
+                </div>
+              </div>
+              <!-- INSERT_YOUR_CODE -->
+              <div class="col-md-12">
+                <label for="abbreviation" class="form-label"
+                  >Abbreviation</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  v-model="form.abbreviation"
+                  id="abbreviation"
+                />
+                <div class="invalid-feedback d-block">
+                  {{ form.errors.abbreviation }}
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <label for="facility_type_id" class="form-label"
+                  >Facility Type</label
+                >
+                <select
+                  class="form-select"
+                  v-model="form.facility_type_id"
+                  id="facility_type_id"
+                >
+                  <option disabled value="">Select Facility Type</option>
+                  <option
+                    v-for="type in facilityTypes"
+                    :key="type.id"
+                    :value="type.id"
+                  >
+                    {{ type.name }}
+                  </option>
+                </select>
+                <div class="invalid-feedback d-block">
+                  {{ form.errors.facility_type_id }}
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-check form-switch">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="is_active"
+                    v-model="form.is_active"
+                  />
+                  <label class="form-check-label" for="is_active">
+                    Active
+                  </label>
+                </div>
+                <div class="invalid-feedback d-block">
+                  {{ form.errors.is_active }} {{ form.is_active }}
                 </div>
               </div>
 

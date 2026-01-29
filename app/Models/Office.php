@@ -14,6 +14,11 @@ class Office extends Model
         'name',
         'abbreviation',
         'facility_type_id',
+        'is_active'
+    ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
     ];
 
     public function papers()
@@ -27,5 +32,10 @@ class Office extends Model
     public function facilityType(): BelongsTo
     {
         return $this->belongsTo(FacilityType::class);
+    }
+
+    public function test()
+    {
+        return 'test';
     }
 }

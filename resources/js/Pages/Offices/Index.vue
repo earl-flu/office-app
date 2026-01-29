@@ -99,6 +99,7 @@ watch([search], (values) => {
                   <tr>
                     <th>Office Name</th>
                     <th>Abbreviation</th>
+                    <th>Facility Type</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -112,6 +113,13 @@ watch([search], (values) => {
                     <td>
                       <div class="d-flex align-items-center gap-3">
                         <p class="mb-0 fw-bold">{{ office.abbreviation }}</p>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="d-flex align-items-center gap-3">
+                        <p class="mb-0 fw-bold">
+                          {{ office.facility_type.name }}
+                        </p>
                       </div>
                     </td>
                     <td>

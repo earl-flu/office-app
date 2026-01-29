@@ -15,8 +15,8 @@ class FacilityTypeController extends Controller
     public function index()
     {
         $facilityTypes = FacilityType::when(FacadesRequest::input('search'), function ($query, $search) {
-                $query->where('name', 'like', "%{$search}%");
-            })
+            $query->where('name', 'like', "%{$search}%");
+        })
             ->orderBy('name')
             ->paginate(10)
             ->withQueryString()
@@ -35,6 +35,7 @@ class FacilityTypeController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255|unique:facility_types,name',
+            'is_active' => 'boolean',
         ]);
 
         FacilityType::create($validated);
@@ -50,6 +51,7 @@ class FacilityTypeController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255|unique:facility_types,name,' . $facilityType->id,
+            'is_active' => 'boolean',
         ]);
 
         $facilityType->update($validated);
