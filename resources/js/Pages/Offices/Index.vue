@@ -100,6 +100,7 @@ watch([search], (values) => {
                     <th>Office Name</th>
                     <th>Abbreviation</th>
                     <th>Facility Type</th>
+                    <th>Status</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -121,6 +122,17 @@ watch([search], (values) => {
                           {{ office.facility_type.name }}
                         </p>
                       </div>
+                    </td>
+                    <!-- INSERT_YOUR_CODE -->
+                    <td>
+                      <span
+                        class="badge"
+                        :class="
+                          office.is_active ? 'bg-success' : 'bg-secondary'
+                        "
+                      >
+                        {{ office.is_active ? "Active" : "Inactive" }}
+                      </span>
                     </td>
                     <td>
                       <div class="d-flex align-items-center gap-1">
@@ -145,6 +157,9 @@ watch([search], (values) => {
                     </td>
                   </tr>
                 </tbody>
+                <tr v-if="offices.data.length === 0">
+                  <td colspan="7" class="text-center py-4">No office found</td>
+                </tr>
               </table>
               <Pagination :links="offices.links" />
             </div>

@@ -139,7 +139,7 @@ const submit = () => {
                   </label>
                 </div>
                 <div class="invalid-feedback d-block">
-                  {{ form.errors.is_active }} {{ form.is_active }}
+                  {{ form.errors.is_active }}
                 </div>
               </div>
 
