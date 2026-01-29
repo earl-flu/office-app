@@ -84,4 +84,17 @@ class UserController extends Controller
         return redirect()->route('users.index')
             ->with('success', 'Role removed successfully.');
     }
+
+    public function setStatus(Request $request, User $user)
+    {
+        $request->validate([
+            'is_active' => 'boolean',
+        ]);
+
+        $user->is_active = $request->input('is_active', $user->is_active);
+        $user->save();
+
+        return redirect()->route('users.index')
+            ->with('success', 'User status updated successfully.');
+    }
 }

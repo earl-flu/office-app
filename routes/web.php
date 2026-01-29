@@ -68,6 +68,7 @@ Route::middleware('auth')->group(function () {
     Route::get('users', [UserController::class, 'index'])->name('users.index');
     Route::post('users/{user}/assign-role', [UserController::class, 'assignRole'])->name('users.assign-role');
     Route::post('users/{user}/remove-role', [UserController::class, 'removeRole'])->name('users.remove-role');
+    Route::post('users/{user}/set-status', [UserController::class, 'setStatus'])->name('users.set-status');
 });
 
 Route::post('/theme/update', [ThemeController::class, 'update'])->name('theme.update');

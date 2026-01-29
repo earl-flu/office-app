@@ -111,6 +111,33 @@ const removeRole = (user, roleId) => {
   }
 };
 
+const setStatus = (user) => {
+  console.log(user.is_active);
+  const form = useForm({
+    is_active: !user.is_active,
+  });
+
+  form.post(route("users.set-status", user.id), {
+    onSuccess: () => {
+      const toast = useToast();
+      toast.success(
+        `${
+          user.employee?.full_name || user.name || user.email
+        } status is set to ${!user.is_active ? "Active" : "Inactive"}`,
+        {
+          timeout: 3000,
+        }
+      );
+    },
+    onError: () => {
+      const toast = useToast();
+      toast.error("Failed to update status", {
+        timeout: 3000,
+      });
+    },
+  });
+};
+
 // Get available roles for a user (roles not already assigned)
 const getAvailableRoles = (user) => {
   if (!user.roles || user.roles.length === 0) {
@@ -183,6 +210,7 @@ const getAvailableRoles = (user) => {
                     <th>Employee ID</th>
                     <th>Roles</th>
                     <th>Status</th>
+                    <th>Is Approved</th>
                     <th>Registered At</th>
                   </tr>
                 </thead>
@@ -275,6 +303,23 @@ const getAvailableRoles = (user) => {
                         Active
                       </span>
                       <span v-else class="badge bg-danger">Inactive</span>
+                      <div class="form-check form-switch">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          :id="'is_active_' + user.id"
+                          @change="setStatus(user)"
+                          :checked="user.is_active"
+                        />
+                      </div>
+                    </td>
+                    <td>
+                      <span v-if="user.is_approved" class="badge bg-info">
+                        Approved
+                      </span>
+                      <span v-else class="badge bg-warning text-dark">
+                        Not Approved
+                      </span>
                     </td>
                     <td>
                       {{ new Date(user.created_at).toLocaleDateString() }}
