@@ -135,15 +135,16 @@ onBeforeUnmount(() => {
                 ><i class="material-icons-outlined">arrow_right</i>All</Link
               >
             </li>
-            <li :class="isActive(route().current('papers.create'))">
-              <Link :href="route('papers.create')"
-                ><i class="material-icons-outlined">arrow_right</i>Create</Link
+            <li :class="isActive(route().current('employee-activities.index'))">
+              <Link :href="route('employee-activities.index')"
+                ><i class="material-icons-outlined">arrow_right</i>All</Link
               >
             </li>
-            <li :class="isActive(route().current('papers.create'))">
-              <Link :href="route('papers.create')"
-                ><i class="material-icons-outlined">arrow_right</i>My
-                Activity</Link
+            <li
+              :class="isActive(route().current('employee-activities.create'))"
+            >
+              <Link :href="route('employee-activities.create')"
+                ><i class="material-icons-outlined">arrow_right</i>Create</Link
               >
             </li>
           </ul>
