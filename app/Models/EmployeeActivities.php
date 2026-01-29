@@ -10,6 +10,22 @@ class EmployeeActivities extends Model
     use HasFactory;
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'employee_id',
+        'assigned_by_id',
+        'activity_type_id',
+        'description',
+        'status',
+        'remarks',
+        'time_spent_minutes',
+        'activity_date'
+    ];
+
+    /**
      * Get the activity type that this employee activity belongs to.
      */
     public function activityType()
@@ -23,6 +39,12 @@ class EmployeeActivities extends Model
     public function employee()
     {
         return $this->belongsTo(Employee::class, 'employee_id');
+    }
+
+
+    public function assignedBy()
+    {
+        return $this->belongsTo(Employee::class, 'assigned_by_id');
     }
 
     /**

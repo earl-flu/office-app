@@ -13,8 +13,13 @@ return new class extends Migration
     {
         Schema::create('employee_activities', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('employee_id')->constrained('employees')->onDelete('cascade');
-            $table->foreignId('activity_type_id')->constrained('activity_types')->onDelete('cascade');
+            $table->foreignId('employee_id')
+                ->constrained('employees');
+            $table->foreignId('assigned_by_id')
+                ->constrained('employees')
+                ->comment('task from this employee');
+            $table->date('activity_date')->comment('Date when the activity happened');
+            $table->foreignId('activity_type_id')->constrained('activity_types');
             $table->text('description');
             $table->enum('status', ['pending', 'in_progress', 'finished', 'cancelled'])->default('pending');
             $table->text('remarks')->nullable();

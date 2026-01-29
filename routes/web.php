@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EmployeeActivitiesController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\FacilityTypeController;
@@ -59,6 +60,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('facilities', FacilityController::class)->except(['destroy']);
     Route::resource('programs', ProgramController::class)->except(['destroy']);
     Route::resource('employees', EmployeeController::class);
+    Route::resource('employee-activities', EmployeeActivitiesController::class);
     Route::get('user-approvals', [UserApprovalController::class, 'index'])->name('user-approvals.index');
     Route::post('user-approvals/{user}/approve', [UserApprovalController::class, 'approve'])->name('user-approvals.approve');
     Route::delete('user-approvals/{user}/reject', [UserApprovalController::class, 'reject'])->name('user-approvals.reject');

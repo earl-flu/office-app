@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\EmployeeActivities;
+use App\Models\Employee;
+use App\Models\ActivityTypes;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class EmployeeActivitiesController extends Controller
 {
@@ -20,7 +23,10 @@ class EmployeeActivitiesController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('EmployeeActivities/Create', [
+            'employees' => Employee::orderBy('last_name')->orderBy('first_name')->get(),
+            'activityTypes' => ActivityTypes::where('is_active', true)->orderBy('name')->get(),
+        ]);
     }
 
     /**
@@ -28,7 +34,21 @@ class EmployeeActivitiesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'assigned_by_id' => 'required|exists:employees,id',
+            'activity_type_id' => 'required|exists:activity_types,id',
+            'description' => 'required|string',
+            'status' => 'required|in:pending,in_progress,finished,cancelled',
+            'remarks' => 'nullable|string',
+            'time_spent_minutes' => 'nullable|integer|min:0',
+        ]);
+
+        $validated['employee_id'] = $request->user()->id;
+
+        EmployeeActivities::create($validated);
+
+        return redirect()->route('employee-activities.index')
+            ->with('success', 'Employee activity created successfully.');
     }
 
     /**

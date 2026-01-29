@@ -114,6 +114,41 @@ onBeforeUnmount(() => {
           </ul>
         </li>
 
+        <li>
+          <a href="javascript:;" class="has-arrow">
+            <div class="parent-icon">
+              <i class="material-icons-outlined">widgets</i>
+            </div>
+            <div class="menu-title">Activity Tracker</div>
+          </a>
+
+          <ul>
+            <li
+              :class="
+                isActive(
+                  route().current('papers.index') ||
+                    route().current('papers.edit')
+                )
+              "
+            >
+              <Link :href="route('papers.index')"
+                ><i class="material-icons-outlined">arrow_right</i>All</Link
+              >
+            </li>
+            <li :class="isActive(route().current('papers.create'))">
+              <Link :href="route('papers.create')"
+                ><i class="material-icons-outlined">arrow_right</i>Create</Link
+              >
+            </li>
+            <li :class="isActive(route().current('papers.create'))">
+              <Link :href="route('papers.create')"
+                ><i class="material-icons-outlined">arrow_right</i>My
+                Activity</Link
+              >
+            </li>
+          </ul>
+        </li>
+
         <li class="menu-label">Library</li>
 
         <li>
