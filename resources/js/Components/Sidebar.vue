@@ -117,7 +117,7 @@ onBeforeUnmount(() => {
         <li>
           <a href="javascript:;" class="has-arrow">
             <div class="parent-icon">
-              <i class="material-icons-outlined">widgets</i>
+              <i class="material-icons-outlined">surfing</i>
             </div>
             <div class="menu-title">Activity Tracker</div>
           </a>
@@ -126,16 +126,12 @@ onBeforeUnmount(() => {
             <li
               :class="
                 isActive(
-                  route().current('papers.index') ||
-                    route().current('papers.edit')
+                  route().current('employee-activities.index') ||
+                    route().current('employee-activities.edit') ||
+                    route().current('employee-activities.show')
                 )
               "
             >
-              <Link :href="route('papers.index')"
-                ><i class="material-icons-outlined">arrow_right</i>All</Link
-              >
-            </li>
-            <li :class="isActive(route().current('employee-activities.index'))">
               <Link :href="route('employee-activities.index')"
                 ><i class="material-icons-outlined">arrow_right</i>All</Link
               >
