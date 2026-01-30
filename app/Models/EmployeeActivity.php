@@ -71,6 +71,28 @@ class EmployeeActivity extends Model
         return $query->where('employee_id', $employeeId);
     }
 
+    public function scopeFilter($query, array $filters)
+    {
+        return $query->when($filters['search'] ?? null, function ($q, $search) {
+            $q->where(function ($q) use ($search) {
+                $q->where('description', 'like', "%{$search}%")
+                    ->orWhereHas('employee', fn($q) => $q->where('first_name', 'like', "%{$search}%")
+                        ->orWhere('last_name', 'like', "%{$search}%")
+                        ->orWhere('employee_id', 'like', "%{$search}%"))
+                    ->orWhereHas('assignedBy', fn($q) => $q->where('first_name', 'like', "%{$search}%")
+                        ->orWhere('last_name', 'like', "%{$search}%"));
+            });
+        })->when($filters['status'] ?? null, function ($q, $status) {
+            $q->where('status', $status);
+        })->when($filters['assigned_by_id'] ?? null, function ($q, $assignedBy) {
+            $q->where('assigned_by_id', $assignedBy);
+        })->when($filters['date_from'] ?? null, function ($q, $from) {
+            $q->whereDate('activity_date', '>=', $from);
+        })->when($filters['date_to'] ?? null, function ($q, $to) {
+            $q->whereDate('activity_date', '<=', $to);
+        });
+    }
+
     /**
      * Set the description attribute and trim extra whitespace.
      *

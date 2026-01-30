@@ -15,44 +15,16 @@ class EmployeeActivitiesController extends Controller
      */
     public function index()
     {
-        $perPage = request()->get('per_page', 10);
+        // 1. Extract and sanitize filters
+        $filters = request()->only(['search', 'status', 'assigned_by_id', 'date_from', 'date_to', 'per_page']);
 
-        $query = EmployeeActivity::with(['activityType', 'employee', 'assignedBy'])
-            ->where('employee_id', auth()->id());
-
-        if ($status = request()->get('status')) {
-            $query->where('status', $status);
-        }
-
-        if ($assignedBy = request()->get('assigned_by_id')) {
-            $query->where('assigned_by_id', $assignedBy);
-        }
-
-        if ($search = request()->get('search')) {
-            $query->where(function ($q) use ($search) {
-                $q->where('description', 'like', "%{$search}%")
-                    ->orWhereHas('employee', function ($q2) use ($search) {
-                        $q2->where('first_name', 'like', "%{$search}%")
-                            ->orWhere('last_name', 'like', "%{$search}%")
-                            ->orWhere('employee_id', 'like', "%{$search}%");
-                    })
-                    ->orWhereHas('assignedBy', function ($q3) use ($search) {
-                        $q3->where('first_name', 'like', "%{$search}%")
-                            ->orWhere('last_name', 'like', "%{$search}%");
-                    });
-            });
-        }
-
-        if ($from = request()->get('date_from')) {
-            $query->whereDate('activity_date', '>=', $from);
-        }
-
-        if ($to = request()->get('date_to')) {
-            $query->whereDate('activity_date', '<=', $to);
-        }
-
-        $activities = $query->orderBy('activity_date', 'desc')
-            ->paginate($perPage)
+        // 2. Build the query using the Scope
+        $activities = EmployeeActivity::query()
+            ->with(['activityType', 'employee', 'assignedBy'])
+            ->where('employee_id', auth()->id())
+            ->filter($filters) // This calls the scopeFilter() in your Model
+            ->latest('activity_date')
+            ->paginate(request()->get('per_page', 10))
             ->withQueryString();
 
         return Inertia::render('EmployeeActivities/Index', [
