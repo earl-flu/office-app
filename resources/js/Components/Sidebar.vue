@@ -78,6 +78,11 @@ onBeforeUnmount(() => {
             <div class="menu-title">Dashboard</div>
           </a>
           <ul>
+            <li :class="isActive(route().current('dashboard'))">
+              <Link :href="route('dashboard')"
+                ><i class="material-icons-outlined">arrow_right</i>User Dashboard</Link
+              >
+            </li>
             <li :class="isActive(route().current('papers.dashboard'))">
               <Link :href="route('papers.dashboard')"
                 ><i class="material-icons-outlined">arrow_right</i>Papers</Link

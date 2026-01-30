@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\EmployeeActivitiesController;
+use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\FacilityTypeController;
@@ -38,9 +39,9 @@ Route::get('/test', function () {
 });
 
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [UserDashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
