@@ -21,6 +21,6 @@ class ActivityTypes extends Model
      */
     public function employeeActivities()
     {
-        return $this->hasMany(EmployeeActivities::class, 'activity_type_id');
+        return $this->hasMany(EmployeeActivity::class, 'activity_type_id');
     }
 }

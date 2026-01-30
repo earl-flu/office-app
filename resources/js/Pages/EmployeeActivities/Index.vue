@@ -25,7 +25,6 @@ const props = defineProps({
 
 let search = ref(props.filters?.search || "");
 let status = ref(props.filters?.status || "");
-let employeeId = ref(props.filters?.employee_id || "");
 let assignedById = ref(props.filters?.assigned_by_id || "");
 let dateFrom = ref(props.filters?.date_from || "");
 let dateTo = ref(props.filters?.date_to || "");
@@ -37,7 +36,6 @@ const debouncedFetch = debounce(() => {
     {
       search: search.value,
       status: status.value,
-      employee_id: employeeId.value,
       assigned_by_id: assignedById.value,
       date_from: dateFrom.value,
       date_to: dateTo.value,
@@ -51,7 +49,7 @@ const debouncedFetch = debounce(() => {
 }, 300);
 
 watch(
-  [search, status, employeeId, assignedById, dateFrom, dateTo, perPage],
+  [search, status, assignedById, dateFrom, dateTo, perPage],
   debouncedFetch
 );
 </script>
@@ -106,15 +104,6 @@ watch(
                 <option value="in_progress">In Progress</option>
                 <option value="finished">Finished</option>
                 <option value="cancelled">Cancelled</option>
-              </select>
-            </div>
-            <div class="col-md-2">
-              <label for="employee" class="form-label">Employee</label>
-              <select id="employee" class="form-select" v-model="employeeId">
-                <option value="">All</option>
-                <option v-for="e in employees" :key="e.id" :value="e.id">
-                  {{ e.full_name }} ({{ e.employee_id }})
-                </option>
               </select>
             </div>
             <div class="col-md-2">

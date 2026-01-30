@@ -72,7 +72,7 @@ class Employee extends Model
      */
     public function employeeActivities()
     {
-        return $this->hasMany(EmployeeActivities::class, 'employee_id');
+        return $this->hasMany(EmployeeActivity::class, 'employee_id');
     }
 
     /**

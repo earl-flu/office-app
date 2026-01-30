@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\EmployeeActivities;
+use App\Models\EmployeeActivity;
 use App\Models\Employee;
 use App\Models\ActivityTypes;
 use Illuminate\Http\Request;
@@ -17,14 +17,11 @@ class EmployeeActivitiesController extends Controller
     {
         $perPage = request()->get('per_page', 10);
 
-        $query = EmployeeActivities::with(['activityType', 'employee', 'assignedBy']);
+        $query = EmployeeActivity::with(['activityType', 'employee', 'assignedBy'])
+            ->where('employee_id', auth()->id());
 
         if ($status = request()->get('status')) {
             $query->where('status', $status);
-        }
-
-        if ($employeeId = request()->get('employee_id')) {
-            $query->where('employee_id', $employeeId);
         }
 
         if ($assignedBy = request()->get('assigned_by_id')) {
@@ -60,7 +57,7 @@ class EmployeeActivitiesController extends Controller
 
         return Inertia::render('EmployeeActivities/Index', [
             'activities' => $activities,
-            'filters' => request()->only(['search', 'status', 'employee_id', 'assigned_by_id', 'date_from', 'date_to', 'per_page']),
+            'filters' => request()->only(['search', 'status', 'assigned_by_id', 'date_from', 'date_to', 'per_page']),
             'employees' => Employee::orderBy('last_name')->orderBy('first_name')->get(),
             'activityTypes' => ActivityTypes::where('is_active', true)->orderBy('name')->get(),
         ]);
@@ -94,7 +91,7 @@ class EmployeeActivitiesController extends Controller
 
         $validated['employee_id'] = $request->user()->id;
 
-        EmployeeActivities::create($validated);
+        EmployeeActivity::create($validated);
 
         return redirect()->route('employee-activities.index')
             ->with('success', 'Employee activity created successfully.');
@@ -103,31 +100,55 @@ class EmployeeActivitiesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(EmployeeActivities $employeeActivities)
+    public function show(EmployeeActivity $employeeActivity)
     {
-        //
+        $employeeActivity->load(['activityType', 'employee', 'assignedBy']);
+
+        return Inertia::render('EmployeeActivities/Show', [
+            'activity' => $employeeActivity,
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(EmployeeActivities $employeeActivities)
+    public function edit(EmployeeActivity $employeeActivity)
     {
-        //
+
+        $employeeActivity->load(['activityType', 'employee', 'assignedBy']);
+
+        return Inertia::render('EmployeeActivities/Edit', [
+            'activity' => $employeeActivity,
+            'employees' => Employee::orderBy('last_name')->orderBy('first_name')->get(),
+            'activityTypes' => ActivityTypes::where('is_active', true)->orderBy('name')->get(),
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, EmployeeActivities $employeeActivities)
+    public function update(Request $request, EmployeeActivity $employeeActivity)
     {
-        //
+        $validated = $request->validate([
+            'assigned_by_id' => 'required|exists:employees,id',
+            'activity_type_id' => 'required|exists:activity_types,id',
+            'description' => 'required|string',
+            'status' => 'required|in:pending,in_progress,finished,cancelled',
+            'remarks' => 'nullable|string',
+            'time_spent_minutes' => 'nullable|integer|min:0',
+            'activity_date' => 'required|date',
+        ]);
+
+        $employeeActivity->update($validated);
+
+        return redirect()->route('employee-activities.index')
+            ->with('success', 'Employee activity updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(EmployeeActivities $employeeActivities)
+    public function destroy(EmployeeActivity $employeeActivity)
     {
         //
     }
