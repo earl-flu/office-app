@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\EmployeeActivitiesController;
-use App\Http\Controllers\UserDashboardController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\FacilityController;
 use App\Http\Controllers\FacilityTypeController;
@@ -12,6 +11,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\ThemeController;
+use App\Http\Controllers\Dashboard\UserActivityDashboardController;
+use App\Http\Controllers\Dashboard\AdminActivityDashboardController;
 use App\Http\Controllers\UserApprovalController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
@@ -39,9 +40,13 @@ Route::get('/test', function () {
 });
 
 
-Route::get('/dashboard', [UserDashboardController::class, 'index'])
+Route::get('/user/activity-dashboard', [UserActivityDashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+    ->name('user-activity-dashboard');
+
+Route::get('/admin/activity-dashboard', [AdminActivityDashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('admin-activity-dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

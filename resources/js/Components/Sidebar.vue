@@ -78,19 +78,26 @@ onBeforeUnmount(() => {
             <div class="menu-title">Dashboard</div>
           </a>
           <ul>
-            <li :class="isActive(route().current('dashboard'))">
-              <Link :href="route('dashboard')"
-                ><i class="material-icons-outlined">arrow_right</i>User Dashboard</Link
+            <li :class="isActive(route().current('admin-activity-dashboard'))">
+              <Link :href="route('admin-activity-dashboard')"
+                ><i class="material-icons-outlined">arrow_right</i>All
+                Activities</Link
               >
             </li>
-            <li :class="isActive(route().current('papers.dashboard'))">
+            <li :class="isActive(route().current('user-activity-dashboard'))">
+              <Link :href="route('user-activity-dashboard')"
+                ><i class="material-icons-outlined">arrow_right</i>User
+                Activity</Link
+              >
+            </li>
+            <!-- <li :class="isActive(route().current('papers.dashboard'))">
               <Link :href="route('papers.dashboard')"
                 ><i class="material-icons-outlined">arrow_right</i>Papers</Link
               >
-            </li>
+            </li> -->
           </ul>
         </li>
-        <li>
+        <!-- <li>
           <a href="javascript:;" class="has-arrow">
             <div class="parent-icon">
               <i class="material-icons-outlined">widgets</i>
@@ -117,7 +124,7 @@ onBeforeUnmount(() => {
               >
             </li>
           </ul>
-        </li>
+        </li> -->
 
         <li>
           <a href="javascript:;" class="has-arrow">

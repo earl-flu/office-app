@@ -35,7 +35,7 @@ const dateTo = ref(props.filters?.date_to || "");
 
 watch([dateFrom, dateTo], () => {
   router.get(
-    route("dashboard"),
+    route("user-activity-dashboard"),
     {
       date_from: dateFrom.value || undefined,
       date_to: dateTo.value || undefined,
@@ -92,7 +92,11 @@ const assignedTimeChartOptions = computed(() => ({
   tooltip: {
     theme: "dark",
     y: {
-      formatter: (value) => `${Math.round(value)} min`,
+      formatter: (value) => {
+        const hours = Math.floor(value / 60);
+        const mins = value % 60;
+        return `${hours} hr ${mins.toString().padStart(2, "0")} mins`;
+      },
     },
   },
   fill: {
@@ -112,7 +116,7 @@ const assignedTimeChartOptions = computed(() => ({
 
 const assignedTimeChartSeries = computed(() => [
   {
-    name: "Time Spent (min)",
+    name: "Time Spent (hh:mm)",
     data: props.assignedTimeSeries.map((item) => item.minutes),
   },
 ]);
@@ -141,7 +145,11 @@ const typeTimeChartOptions = computed(() => ({
   tooltip: {
     theme: "dark",
     y: {
-      formatter: (value) => `${Math.round(value)} min`,
+      formatter: (value) => {
+        const hours = Math.floor(value / 60);
+        const mins = value % 60;
+        return `${hours} hr ${mins.toString().padStart(2, "0")} min`;
+      },
     },
   },
   fill: {
@@ -161,7 +169,7 @@ const typeTimeChartOptions = computed(() => ({
 
 const typeTimeChartSeries = computed(() => [
   {
-    name: "Time Spent (min)",
+    name: "Time Spent (hh:mm)",
     data: props.typeTimeSeries.map((item) => item.minutes),
   },
 ]);

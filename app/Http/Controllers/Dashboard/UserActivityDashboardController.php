@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Dashboard;
 
-use App\Models\EmployeeActivity;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Services\Dashboard\UserDashboardService;
 
-class UserDashboardController extends Controller
+class UserActivityDashboardController extends Controller
 {
     /**
      * Display the user dashboard with their activity statistics and recent activities.
@@ -19,6 +19,6 @@ class UserDashboardController extends Controller
             $request->only(['date_from', 'date_to'])
         );
 
-        return Inertia::render('Dashboard', $data);
+        return Inertia::render('UserDashboard', $data);
     }
 }
