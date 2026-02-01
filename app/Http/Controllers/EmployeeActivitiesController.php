@@ -6,6 +6,7 @@ use App\Models\EmployeeActivity;
 use App\Models\Employee;
 use App\Models\ActivityTypes;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 
 class EmployeeActivitiesController extends Controller
@@ -86,6 +87,7 @@ class EmployeeActivitiesController extends Controller
      */
     public function edit(EmployeeActivity $employeeActivity)
     {
+        Gate::authorize('update', $employeeActivity);
 
         $employeeActivity->load(['activityType', 'employee', 'assignedBy']);
 
