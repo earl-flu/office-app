@@ -159,6 +159,33 @@ onBeforeUnmount(() => {
         </li>
 
         <li class="menu-label">Library</li>
+        <li>
+          <a href="javascript:;" class="has-arrow">
+            <div class="parent-icon">
+              <i class="material-icons-outlined">inventory_2</i>
+            </div>
+            <div class="menu-title">Employees</div>
+          </a>
+          <ul>
+            <li
+              :class="
+                isActive(
+                  route().current('employees.index') ||
+                    route().current('employees.edit')
+                )
+              "
+            >
+              <Link :href="route('employees.index')"
+                ><i class="material-icons-outlined">arrow_right</i>All</Link
+              >
+            </li>
+            <li :class="isActive(route().current('employees.create'))">
+              <Link :href="route('employees.create')"
+                ><i class="material-icons-outlined">arrow_right</i>Add</Link
+              >
+            </li>
+          </ul>
+        </li>
 
         <li>
           <a href="javascript:;" class="has-arrow">

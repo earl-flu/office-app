@@ -27,7 +27,26 @@ const form = useForm({
   division: props.employee.division || "",
   program_id: props.employee.program_id || "",
   facility_id: props.employee.facility_id || "",
+  profile_image: null,
+  professional_image: null,
 });
+
+const profileImageUrl = () =>
+  props.employee.profile_image
+    ? `/storage/${props.employee.profile_image}`
+    : null;
+const professionalImageUrl = () =>
+  props.employee.professional_image
+    ? `/storage/${props.employee.professional_image}`
+    : null;
+
+const onProfileImageChange = (e) => {
+  form.profile_image = e.target.files?.[0] ?? null;
+};
+
+const onProfessionalImageChange = (e) => {
+  form.professional_image = e.target.files?.[0] ?? null;
+};
 
 const submit = () => {
   form.put(route("employees.update", props.employee), {
@@ -210,6 +229,54 @@ const submit = () => {
                 </select>
                 <div class="invalid-feedback d-block">
                   {{ form.errors.facility_id }}
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <label for="profile_image" class="form-label">Profile Image</label>
+                <div v-if="profileImageUrl()" class="mb-2">
+                  <img
+                    :src="profileImageUrl()"
+                    alt="Profile"
+                    class="img-thumbnail"
+                    style="max-height: 120px;"
+                  />
+                  <p class="text-muted small mb-0 mt-1">Current image</p>
+                </div>
+                <input
+                  type="file"
+                  class="form-control"
+                  id="profile_image"
+                  accept="image/jpeg,image/png,image/jpg,image/gif"
+                  @change="onProfileImageChange"
+                />
+                <small class="text-muted">JPEG, PNG, GIF. Max 2MB. Leave empty to keep current.</small>
+                <div class="invalid-feedback d-block">
+                  {{ form.errors.profile_image }}
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <label for="professional_image" class="form-label">Professional Image</label>
+                <div v-if="professionalImageUrl()" class="mb-2">
+                  <img
+                    :src="professionalImageUrl()"
+                    alt="Professional"
+                    class="img-thumbnail"
+                    style="max-height: 120px;"
+                  />
+                  <p class="text-muted small mb-0 mt-1">Current image</p>
+                </div>
+                <input
+                  type="file"
+                  class="form-control"
+                  id="professional_image"
+                  accept="image/jpeg,image/png,image/jpg,image/gif"
+                  @change="onProfessionalImageChange"
+                />
+                <small class="text-muted">JPEG, PNG, GIF. Max 2MB. Leave empty to keep current.</small>
+                <div class="invalid-feedback d-block">
+                  {{ form.errors.professional_image }}
                 </div>
               </div>
 

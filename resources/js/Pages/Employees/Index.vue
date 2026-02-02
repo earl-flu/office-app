@@ -113,6 +113,20 @@ watch([search], (values) => {
                     </td>
                     <td>
                       <div class="d-flex align-items-center gap-3">
+                        <img
+                          v-if="employee.profile_image"
+                          :src="`/storage/${employee.profile_image}`"
+                          :alt="employee.full_name"
+                          class="rounded-circle"
+                          style="width: 36px; height: 36px; object-fit: cover;"
+                        />
+                        <div
+                          v-else
+                          class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white fw-bold"
+                          style="width: 36px; height: 36px; font-size: 0.9rem;"
+                        >
+                          {{ employee.full_name?.charAt(0) || '?' }}
+                        </div>
                         <p class="mb-0">{{ employee.full_name }}</p>
                       </div>
                     </td>

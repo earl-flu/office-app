@@ -53,6 +53,29 @@ const props = defineProps({
             </div>
 
             <div class="row g-3">
+              <div class="col-12 mb-4">
+                <div class="d-flex gap-4 flex-wrap">
+                  <div v-if="employee.profile_image" class="text-center">
+                    <label class="form-label fw-bold d-block">Profile Image</label>
+                    <img
+                      :src="`/storage/${employee.profile_image}`"
+                      alt="Profile"
+                      class="img-thumbnail"
+                      style="max-height: 200px; max-width: 200px; object-fit: cover;"
+                    />
+                  </div>
+                  <div v-if="employee.professional_image" class="text-center">
+                    <label class="form-label fw-bold d-block">Professional Image</label>
+                    <img
+                      :src="`/storage/${employee.professional_image}`"
+                      alt="Professional"
+                      class="img-thumbnail"
+                      style="max-height: 200px; max-width: 200px; object-fit: cover;"
+                    />
+                  </div>
+                </div>
+              </div>
+
               <div class="col-md-3">
                 <label class="form-label fw-bold">Employee ID</label>
                 <p class="mb-0">{{ employee.employee_id }}</p>

@@ -25,7 +25,8 @@ return new class extends Migration
             $table->enum('sex', ['Male', 'Female', 'Other']);
             $table->date('birthday')->nullable();
             $table->date('date_employed')->nullable();
-
+            $table->string('professional_image')->nullable();
+            $table->string('profile_image')->nullable();
             $table->foreignId('division_id')->nullable()->constrained('divisions');
             $table->foreignId('program_id')->nullable()->constrained('programs');
             $table->foreignId('office_id')->nullable()->constrained('offices');

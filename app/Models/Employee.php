@@ -17,11 +17,13 @@ class Employee extends Model
         'first_name',
         'middle_name',
         'last_name',
-        'gender',
+        'sex',
         'suffix',
-        'division',
+        'division_id',
         'program_id',
-        'facility_id',
+        'office_id',
+        'professional_image',
+        'profile_image'
     ];
 
     /**
@@ -43,11 +45,11 @@ class Employee extends Model
     }
 
     /**
-     * Get the facility
+     * Get the office
      */
-    public function facility(): BelongsTo
+    public function office(): BelongsTo
     {
-        return $this->belongsTo(Facility::class);
+        return $this->belongsTo(Office::class);
     }
 
     /**
