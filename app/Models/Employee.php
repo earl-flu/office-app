@@ -37,11 +37,11 @@ class Employee extends Model
 
 
     /**
-     * Get the program
+     * Get the unit
      */
-    public function program(): BelongsTo
+    public function unit(): BelongsTo
     {
-        return $this->belongsTo(Program::class);
+        return $this->belongsTo(Unit::class);
     }
 
     /**

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\EmployeeActivity;
 use App\Models\Employee;
 use App\Models\ActivityTypes;
+use App\Models\Mfo;
+use App\Models\Sex;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
@@ -33,6 +35,7 @@ class EmployeeActivitiesController extends Controller
             'filters' => request()->only(['search', 'status', 'assigned_by_id', 'date_from', 'date_to', 'per_page']),
             'employees' => Employee::orderBy('last_name')->orderBy('first_name')->get(),
             'activityTypes' => ActivityTypes::where('is_active', true)->orderBy('name')->get(),
+            'mfos' => Mfo::where('is_active', true)->orderBy('description')->get(),
         ]);
     }
 

@@ -7,6 +7,9 @@ use App\Models\Employee;
 use App\Models\Facility;
 use App\Models\Office;
 use App\Models\Program;
+use App\Models\Sex;
+use App\Models\Suffix;
+use App\Models\Unit;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Request as FacadesRequest;
@@ -19,7 +22,7 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $employees = Employee::with(['program', 'office.facilityType'])
+        $employees = Employee::with(['unit', 'office.officeType'])
             ->when(FacadesRequest::input('search'), function ($query, $search) {
                 $query->where(function ($q) use ($search) {
                     $q->where('first_name', 'like', "%{$search}%")
@@ -44,9 +47,11 @@ class EmployeeController extends Controller
     public function create()
     {
         return Inertia::render('Employees/Create', [
-            'programs' => Program::orderBy('name')->get(),
-            'offices' => Office::with('facilityType')->orderBy('name')->get(),
-            'divisions' => Division::orderBy('name')->get(),
+            'units' => Unit::where('is_active', true)->orderBy('name')->get(),
+            'offices' => Office::where('is_active', true)->with('officeType')->orderBy('name')->get(),
+            'divisions' => Division::where('is_active', true)->orderBy('name')->get(),
+            'suffixes' => Suffix::where('is_active', true)->orderBy('name')->get(),
+            'sexes' => Sex::where('is_active', true)->orderBy('description')->get(),
         ]);
     }
 
@@ -61,11 +66,11 @@ class EmployeeController extends Controller
             'first_name' => 'required|string|max:255',
             'middle_name' => 'nullable|string|max:255',
             'last_name' => 'required|string|max:255',
-            'sex' => 'nullable|in:Male,Female,Other',
-            'suffix' => 'nullable|string|max:255',
+            'sex_id' => 'required|exists:sexes,id',
+            'suffix_id' => 'nullable|exists:suffixes,id',
             'division_id' => 'nullable|exists:divisions,id',
-            'program_id' => 'nullable|exists:programs,id',
-            'facility_id' => 'nullable|exists:facilities,id',
+            'unit_id' => 'nullable|exists:units,id',
+            'office_id' => 'nullable|exists:offices,id',
             'professional_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
@@ -102,8 +107,11 @@ class EmployeeController extends Controller
     {
         return Inertia::render('Employees/Edit', [
             'employee' => $employee,
-            'programs' => Program::orderBy('name')->get(),
-            'facilities' => Facility::with('facilityType')->orderBy('name')->get(),
+            'units' => Unit::where('is_active', true)->orderBy('name')->get(),
+            'offices' => Office::where('is_active', true)->with('officeType')->orderBy('name')->get(),
+            'divisions' => Division::where('is_active', true)->orderBy('name')->get(),
+            'suffixes' => Suffix::where('is_active', true)->orderBy('name')->get(),
+            'sexes' => Sex::where('is_active', true)->orderBy('description')->get(),
         ]);
     }
 

@@ -18,7 +18,7 @@ class Unit extends Model
     ];
 
     /**
-     * Get all employees in this program
+     * Get all employees in this unit
      */
     public function employees(): HasMany
     {

@@ -17,36 +17,15 @@ class DivisionSeeder extends Seeder
 
         $divisions = [
             [
-                'name' => 'Health Services Division',
-                'abbreviation' => 'HSD',
+                'name' => 'Health System Support Division',
+                'abbreviation' => 'HSSD',
                 'is_active' => true,
                 'created_at' => $now,
                 'updated_at' => $now,
             ],
             [
-                'name' => 'Administrative Division',
-                'abbreviation' => 'AD',
-                'is_active' => true,
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
-            [
-                'name' => 'Finance Division',
-                'abbreviation' => 'FD',
-                'is_active' => true,
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
-            [
-                'name' => 'Planning and Development Division',
-                'abbreviation' => 'PDD',
-                'is_active' => true,
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
-            [
-                'name' => 'Human Resource Division',
-                'abbreviation' => 'HRD',
+                'name' => 'Health System Delivery Division',
+                'abbreviation' => 'HSDD',
                 'is_active' => true,
                 'created_at' => $now,
                 'updated_at' => $now,

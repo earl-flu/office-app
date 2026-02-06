@@ -4,7 +4,7 @@ import { Head, useForm, Link } from "@inertiajs/vue3";
 import { useToast } from "vue-toastification";
 
 const props = defineProps({
-  programs: {
+  units: {
     type: Array,
     default: () => [],
   },
@@ -16,6 +16,14 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  suffixes: {
+    type: Array,
+    default: () => [],
+  },
+  sexes: {
+    type: Array,
+    default: () => [],
+  },
 });
 
 const form = useForm({
@@ -23,10 +31,10 @@ const form = useForm({
   first_name: "",
   middle_name: "",
   last_name: "",
-  gender: "",
-  suffix: "",
-  division: "",
-  program_id: "",
+  sex_id: "",
+  suffix_id: "",
+  division_id: "",
+  unit_id: "",
   office_id: "",
   profile_image: null,
   professional_image: null,
@@ -89,6 +97,7 @@ const submit = () => {
                     v-model="form.employee_id"
                     id="employee_id"
                     required
+                    autofocus
                   />
                   <div class="invalid-feedback d-block">
                     {{ form.errors.employee_id }}
@@ -97,14 +106,11 @@ const submit = () => {
               </div>
               <div class="row g-3">
                 <div class="col-md-4">
-                  <label for="first_name" class="form-label"
-                    >First Name *</label
-                  >
+                  <label for="first_name" class="form-label">First Name*</label>
                   <input
                     type="text"
                     class="form-control"
                     v-model="form.first_name"
-                    autofocus
                     id="first_name"
                     required
                   />
@@ -142,28 +148,35 @@ const submit = () => {
                   </div>
                 </div>
                 <div class="col-md-3">
-                  <label for="suffix" class="form-label">Suffix</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    v-model="form.suffix"
-                    id="suffix"
-                    placeholder="Jr., Sr., III, etc."
-                  />
+                  <label for="suffix_id" class="form-label">Suffix</label>
+                  <select
+                    class="form-select"
+                    v-model="form.suffix_id"
+                    id="suffix_id"
+                  >
+                    <option value="">Select Suffix</option>
+                    <option
+                      v-for="suffix in suffixes"
+                      :key="suffix.id"
+                      :value="suffix.id"
+                    >
+                      {{ suffix.name }}
+                    </option>
+                  </select>
                   <div class="invalid-feedback d-block">
-                    {{ form.errors.suffix }}
+                    {{ form.errors.suffix_id }}
                   </div>
                 </div>
                 <div class="col-md-3">
-                  <label for="gender" class="form-label">Gender</label>
-                  <select class="form-select" v-model="form.gender" id="gender">
-                    <option value="">Select Gender</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option>
+                  <label for="sex" class="form-label">Sex *</label>
+
+                  <select class="form-select" v-model="form.sex_id" id="sex">
+                    <option v-for="sex in sexes" :key="sex.id" :value="sex.id">
+                      {{ sex.description }}
+                    </option>
                   </select>
                   <div class="invalid-feedback d-block">
-                    {{ form.errors.gender }}
+                    {{ form.errors.sex }}
                   </div>
                 </div>
                 <div class="col-md-3">
@@ -188,23 +201,23 @@ const submit = () => {
                 </div>
 
                 <div class="col-md-3">
-                  <label for="program_id" class="form-label">Program</label>
+                  <label for="unit_id" class="form-label">Unit</label>
                   <select
                     class="form-select"
-                    v-model="form.program_id"
-                    id="program_id"
+                    v-model="form.unit_id"
+                    id="unit_id"
                   >
-                    <option value="">Select Program</option>
+                    <option value="">Select Unit</option>
                     <option
-                      v-for="program in programs"
-                      :key="program.id"
-                      :value="program.id"
+                      v-for="unit in units"
+                      :key="unit.id"
+                      :value="unit.id"
                     >
-                      {{ program.name }}
+                      {{ unit.name }}
                     </option>
                   </select>
                   <div class="invalid-feedback d-block">
-                    {{ form.errors.program_id }}
+                    {{ form.errors.unit_id }}
                   </div>
                 </div>
 
