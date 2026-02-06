@@ -13,6 +13,8 @@ use App\Http\Controllers\TagController;
 use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\Dashboard\UserActivityDashboardController;
 use App\Http\Controllers\Dashboard\AdminActivityDashboardController;
+use App\Http\Controllers\OfficeTypeController;
+use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserApprovalController;
 use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
@@ -62,9 +64,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('tags', TagController::class)->except(['destroy']);
 
     // Employee Task Recorder System
-    Route::resource('facility-types', FacilityTypeController::class)->except(['create', 'show', 'edit', 'destroy']);
+    Route::resource('office-types', OfficeTypeController::class)->except(['create', 'show', 'edit', 'destroy']);
     Route::resource('facilities', FacilityController::class)->except(['destroy']);
-    Route::resource('programs', ProgramController::class)->except(['destroy']);
+    Route::resource('units', UnitController::class)->except(['destroy']);
     Route::resource('employees', EmployeeController::class);
     Route::resource('employee-activities', EmployeeActivitiesController::class);
     Route::get('user-approvals', [UserApprovalController::class, 'index'])->name('user-approvals.index');

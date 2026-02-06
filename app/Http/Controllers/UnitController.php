@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Program;
+use App\Models\Unit;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Request as FacadesRequest;
 
-class ProgramController extends Controller
+class UnitController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $programs = Program::when(FacadesRequest::input('search'), function ($query, $search) {
+        $units = Unit::when(FacadesRequest::input('search'), function ($query, $search) {
             $query->where('name', 'like', "%{$search}%")
                 ->orWhere('abbreviation', 'like', "%{$search}%");
         })
@@ -23,8 +23,8 @@ class ProgramController extends Controller
             ->withQueryString()
             ->onEachSide(0);
 
-        return Inertia::render('Programs/Index', [
-            'programs' => $programs,
+        return Inertia::render('Units/Index', [
+            'units' => $units,
             'filters' => FacadesRequest::only('search')
         ]);
     }
@@ -34,7 +34,7 @@ class ProgramController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Programs/Create', []);
+        return Inertia::render('Units/Create', []);
     }
 
     /**
@@ -48,26 +48,26 @@ class ProgramController extends Controller
             'is_active' => 'required|boolean',
         ]);
 
-        Program::create($validated);
+        Unit::create($validated);
 
-        return redirect()->route('programs.index')
+        return redirect()->route('units.index')
             ->with('success', 'Program created successfully.');
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Program $program)
+    public function edit(Unit $unit)
     {
-        return Inertia::render('Programs/Edit', [
-            'program' => $program,
+        return Inertia::render('Units/Edit', [
+            'unit' => $unit,
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Program $program)
+    public function update(Request $request, Unit $unit)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -75,9 +75,9 @@ class ProgramController extends Controller
             'is_active' => 'required|boolean',
         ]);
 
-        $program->update($validated);
+        $unit->update($validated);
 
-        return redirect()->route('programs.index')
-            ->with('success', 'Program updated successfully.');
+        return redirect()->route('units.index')
+            ->with('success', 'Unit updated successfully.');
     }
 }

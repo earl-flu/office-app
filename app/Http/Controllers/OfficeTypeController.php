@@ -38,7 +38,7 @@ class OfficeTypeController extends Controller
             'is_active' => 'boolean',
         ]);
 
-        FacilityType::create($validated);
+        OfficeType::create($validated);
 
         return redirect()->route('facility-types.index')
             ->with('success', 'Facility type created successfully.');
@@ -47,14 +47,14 @@ class OfficeTypeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, FacilityType $facilityType)
+    public function update(Request $request, OfficeType $officeType)
     {
         $validated = $request->validate([
-            'name' => 'required|string|max:255|unique:facility_types,name,' . $facilityType->id,
+            'name' => 'required|string|max:255|unique:facility_types,name,' . $officeType->id,
             'is_active' => 'boolean',
         ]);
 
-        $facilityType->update($validated);
+        $officeType->update($validated);
 
         return redirect()->route('facility-types.index')
             ->with('success', 'Facility type updated successfully.');
