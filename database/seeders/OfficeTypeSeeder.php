@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\FacilityType;
+use App\Models\OfficeType;
 use Illuminate\Database\Seeder;
 use Carbon\Carbon;
 
-class FacilityTypeSeeder extends Seeder
+class OfficeTypeSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,12 +15,12 @@ class FacilityTypeSeeder extends Seeder
     {
         $now = Carbon::now();
 
-        $facilityTypes = [
+        $officeTypes = [
             ['name' => 'Office', 'created_at' => $now, 'updated_at' => $now],
             ['name' => 'RHU', 'created_at' => $now, 'updated_at' => $now],
             ['name' => 'Hospital', 'created_at' => $now, 'updated_at' => $now],
         ];
 
-        FacilityType::insert($facilityTypes);
+        OfficeType::insert($officeTypes);
     }
 }

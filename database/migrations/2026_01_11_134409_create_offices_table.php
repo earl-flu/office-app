@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('abbreviation');
             $table->string('name');
             $table->boolean('is_active')->default(true);
-            $table->foreignId('facility_type_id')->constrained('facility_types');
+            $table->foreignId('office_type_id')->constrained('office_types');
             $table->timestamps();
         });
 

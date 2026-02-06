@@ -6,20 +6,22 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class FacilityType extends Model
+class Unit extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'name',
-        'is_active'
+        'abbreviation',
+        'is_active',
+        'unit_head_id'
     ];
 
     /**
-     * Get all facilities of this type
+     * Get all employees in this program
      */
-    public function facilities(): HasMany
+    public function employees(): HasMany
     {
-        return $this->hasMany(Facility::class);
+        return $this->hasMany(Employee::class);
     }
 }

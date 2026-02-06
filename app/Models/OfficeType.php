@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Program extends Model
+class OfficeType extends Model
 {
     use HasFactory;
 
@@ -17,10 +17,10 @@ class Program extends Model
     ];
 
     /**
-     * Get all employees in this program
+     * Get all facilities of this type
      */
-    public function employees(): HasMany
+    public function offices(): HasMany
     {
-        return $this->hasMany(Employee::class);
+        return $this->hasMany(Office::class);
     }
 }

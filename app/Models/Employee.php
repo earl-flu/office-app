@@ -17,10 +17,10 @@ class Employee extends Model
         'first_name',
         'middle_name',
         'last_name',
-        'sex',
-        'suffix',
+        'sex_id',
+        'suffix_id',
         'division_id',
-        'program_id',
+        'unit_id',
         'office_id',
         'professional_image',
         'profile_image'

@@ -13,7 +13,7 @@ class Office extends Model
     protected $fillable = [
         'name',
         'abbreviation',
-        'facility_type_id',
+        'office_type_id',
         'is_active'
     ];
 
@@ -27,11 +27,11 @@ class Office extends Model
     }
 
     /**
-     * Get the facility type
+     * Get the office type
      */
-    public function facilityType(): BelongsTo
+    public function OfficeType(): BelongsTo
     {
-        return $this->belongsTo(FacilityType::class);
+        return $this->belongsTo(OfficeType::class);
     }
 
     public function test()

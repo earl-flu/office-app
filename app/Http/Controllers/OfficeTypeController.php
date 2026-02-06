@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\FacilityType;
+use App\Models\OfficeType;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Request as FacadesRequest;
 
-class FacilityTypeController extends Controller
+class OfficeTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $facilityTypes = FacilityType::when(FacadesRequest::input('search'), function ($query, $search) {
+        $officeTypes = OfficeType::when(FacadesRequest::input('search'), function ($query, $search) {
             $query->where('name', 'like', "%{$search}%");
         })
             ->orderBy('name')
@@ -22,8 +22,8 @@ class FacilityTypeController extends Controller
             ->withQueryString()
             ->onEachSide(0);
 
-        return Inertia::render('FacilityTypes/Index', [
-            'facilityTypes' => $facilityTypes,
+        return Inertia::render('OfficeTypes/Index', [
+            'officeTypes' => $officeTypes,
             'filters' => FacadesRequest::only('search')
         ]);
     }

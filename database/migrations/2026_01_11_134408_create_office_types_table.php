@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('facility_types', function (Blueprint $table) {
+        Schema::create('office_types', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique(); // Office, RHU, Hospital
+            $table->string('abbreviation')->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('facility_types');
+        Schema::dropIfExists('office_types');
     }
 };

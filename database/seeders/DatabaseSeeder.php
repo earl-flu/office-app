@@ -22,14 +22,16 @@ class DatabaseSeeder extends Seeder
         $this->call([
             TagSeeder::class,
 
+            SexSeeder::class,
+            SuffixSeeder::class,
             ActivityTypesSeeder::class,
-            FacilityTypeSeeder::class,
+            OfficeTypeSeeder::class,
             DivisionSeeder::class,
             OfficeSeeder::class,
-            ProgramSeeder::class,
             EmployeeSeeder::class,
             UserSeeder::class,
             RoleSeeder::class,
+            UnitSeeder::class,
         ]);
     }
 }
