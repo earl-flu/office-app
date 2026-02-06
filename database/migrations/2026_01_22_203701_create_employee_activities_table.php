@@ -20,6 +20,8 @@ return new class extends Migration
                 ->comment('task from this employee');
             $table->date('activity_date')->comment('Date when the activity happened');
             $table->foreignId('activity_type_id')->constrained('activity_types');
+            $table->foreignId('mfo_id')
+                ->constrained('mfos');
             $table->text('description');
             $table->enum('status', ['pending', 'in_progress', 'finished', 'cancelled'])->default('pending');
             $table->text('remarks')->nullable();

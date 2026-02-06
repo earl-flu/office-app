@@ -18,6 +18,7 @@ class EmployeeActivity extends Model
         'employee_id',
         'assigned_by_id',
         'activity_type_id',
+        'mfo_id',
         'description',
         'status',
         'remarks',
