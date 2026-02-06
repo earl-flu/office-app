@@ -22,12 +22,15 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $employees = Employee::with(['unit', 'office.officeType', 'division', 'sex'])
+        $employees = Employee::with(['unit', 'office.officeType', 'division', 'sex', 'suffix'])
             ->when(FacadesRequest::input('search'), function ($query, $search) {
                 $query->where(function ($q) use ($search) {
                     $q->where('first_name', 'like', "%{$search}%")
                         ->orWhere('last_name', 'like', "%{$search}%")
-                        ->orWhere('employee_id', 'like', "%{$search}%");
+                        ->orWhere('employee_id', 'like', "%{$search}%")
+                        ->orWhereHas('suffix', function ($sq) use ($search) {
+                            $sq->where('name', 'like', "%{$search}%");
+                        });
                 });
             })
             ->orderBy('employee_id')
@@ -93,7 +96,7 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
-        $employee->load(['unit', 'office.officeType', 'user', 'division']);
+        $employee->load(['unit', 'office.officeType', 'user', 'division', 'sex']);
 
         return Inertia::render('Employees/Show', [
             'employee' => $employee,

@@ -110,31 +110,27 @@ const props = defineProps({
 
               <div class="col-md-3">
                 <label class="form-label fw-bold">Gender</label>
-                <p class="mb-0">{{ employee.gender || "-" }}</p>
+                <p class="mb-0">{{ employee.sex?.description || "-" }}</p>
               </div>
 
               <div class="col-md-3">
                 <label class="form-label fw-bold">Suffix</label>
-                <p class="mb-0">{{ employee.suffix_desc || "-" }}</p>
+                <p class="mb-0">{{ employee.suffix?.name || "-" }}</p>
+              </div>
+              <div class="col-md-3">
+                <label class="form-label fw-bold">Office</label>
+                <p class="mb-0">{{ employee.office?.name || "-" }}</p>
               </div>
 
               <div class="col-md-3">
                 <label class="form-label fw-bold">Division</label>
-                <p class="mb-0">{{ employee.division.name || "-" }}</p>
+                <p class="mb-0">{{ employee.division?.name || "-" }}</p>
               </div>
 
               <div class="col-md-3">
-                <label class="form-label fw-bold">Program</label>
-                <p class="mb-0">{{ employee.program?.name || "-" }}</p>
-              </div>
-
-              <div class="col-md-3">
-                <label class="form-label fw-bold">Facility</label>
+                <label class="form-label fw-bold">Unit</label>
                 <p class="mb-0">
-                  {{ employee.facility?.name || "-" }}
-                  <span v-if="employee.facility?.facility_type">
-                    ({{ employee.facility.facility_type.name }})
-                  </span>
+                  {{ employee.unit?.name || "-" }}
                 </p>
               </div>
             </div>
