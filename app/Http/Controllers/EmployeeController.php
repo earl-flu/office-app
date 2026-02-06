@@ -22,7 +22,7 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $employees = Employee::with(['unit', 'office.officeType'])
+        $employees = Employee::with(['unit', 'office.officeType', 'division', 'sex'])
             ->when(FacadesRequest::input('search'), function ($query, $search) {
                 $query->where(function ($q) use ($search) {
                     $q->where('first_name', 'like', "%{$search}%")
@@ -93,7 +93,7 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
-        $employee->load(['program', 'facility.facilityType', 'user', 'assignedTasks.assignedToUser']);
+        $employee->load(['unit', 'office.officeType', 'user', 'division']);
 
         return Inertia::render('Employees/Show', [
             'employee' => $employee,
@@ -124,11 +124,11 @@ class EmployeeController extends Controller
             'first_name' => 'required|string|max:255',
             'middle_name' => 'nullable|string|max:255',
             'last_name' => 'required|string|max:255',
-            'gender' => 'nullable|in:male,female,other',
-            'suffix' => 'nullable|string|max:255',
-            'division' => 'nullable|in:HSSD,HSDD',
-            'program_id' => 'nullable|exists:programs,id',
-            'facility_id' => 'nullable|exists:facilities,id',
+            'sex_id' => 'nullable|exists:sexes,id',
+            'suffix_id' => 'nullable|exists:suffixes,id',
+            'division_id' => 'nullable|exists:divisions,id',
+            'unit_id' => 'nullable|exists:units,id',
+            'office_id' => 'nullable|exists:offices,id',
             'professional_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);

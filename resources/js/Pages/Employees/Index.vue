@@ -101,7 +101,7 @@ watch([search], (values) => {
                     <th>Name</th>
                     <th>Gender</th>
                     <th>Division</th>
-                    <th>Program</th>
+                    <th>Unit</th>
                     <th>Facility</th>
                     <th>Actions</th>
                   </tr>
@@ -118,22 +118,22 @@ watch([search], (values) => {
                           :src="`/storage/${employee.profile_image}`"
                           :alt="employee.full_name"
                           class="rounded-circle"
-                          style="width: 36px; height: 36px; object-fit: cover;"
+                          style="width: 36px; height: 36px; object-fit: cover"
                         />
                         <div
                           v-else
                           class="rounded-circle bg-secondary d-flex align-items-center justify-content-center text-white fw-bold"
-                          style="width: 36px; height: 36px; font-size: 0.9rem;"
+                          style="width: 36px; height: 36px; font-size: 0.9rem"
                         >
-                          {{ employee.full_name?.charAt(0) || '?' }}
+                          {{ employee.full_name?.charAt(0) || "?" }}
                         </div>
                         <p class="mb-0">{{ employee.full_name }}</p>
                       </div>
                     </td>
-                    <td>{{ employee.gender || '-' }}</td>
-                    <td>{{ employee.division || '-' }}</td>
-                    <td>{{ employee.program?.name || '-' }}</td>
-                    <td>{{ employee.facility?.name || '-' }}</td>
+                    <td>{{ employee.sex?.description || "-" }}</td>
+                    <td>{{ employee.division?.name || "-" }}</td>
+                    <td>{{ employee.unit?.name || "-" }}</td>
+                    <td>{{ employee.office?.name || "-" }}</td>
                     <td>
                       <div class="d-flex align-items-center gap-1">
                         <Link

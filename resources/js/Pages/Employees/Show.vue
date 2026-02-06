@@ -56,21 +56,33 @@ const props = defineProps({
               <div class="col-12 mb-4">
                 <div class="d-flex gap-4 flex-wrap">
                   <div v-if="employee.profile_image" class="text-center">
-                    <label class="form-label fw-bold d-block">Profile Image</label>
+                    <label class="form-label fw-bold d-block"
+                      >Profile Image</label
+                    >
                     <img
                       :src="`/storage/${employee.profile_image}`"
                       alt="Profile"
                       class="img-thumbnail"
-                      style="max-height: 200px; max-width: 200px; object-fit: cover;"
+                      style="
+                        max-height: 200px;
+                        max-width: 200px;
+                        object-fit: cover;
+                      "
                     />
                   </div>
                   <div v-if="employee.professional_image" class="text-center">
-                    <label class="form-label fw-bold d-block">Professional Image</label>
+                    <label class="form-label fw-bold d-block"
+                      >Professional Image</label
+                    >
                     <img
                       :src="`/storage/${employee.professional_image}`"
                       alt="Professional"
                       class="img-thumbnail"
-                      style="max-height: 200px; max-width: 200px; object-fit: cover;"
+                      style="
+                        max-height: 200px;
+                        max-width: 200px;
+                        object-fit: cover;
+                      "
                     />
                   </div>
                 </div>
@@ -103,12 +115,12 @@ const props = defineProps({
 
               <div class="col-md-3">
                 <label class="form-label fw-bold">Suffix</label>
-                <p class="mb-0">{{ employee.suffix || "-" }}</p>
+                <p class="mb-0">{{ employee.suffix_desc || "-" }}</p>
               </div>
 
               <div class="col-md-3">
                 <label class="form-label fw-bold">Division</label>
-                <p class="mb-0">{{ employee.division || "-" }}</p>
+                <p class="mb-0">{{ employee.division.name || "-" }}</p>
               </div>
 
               <div class="col-md-3">

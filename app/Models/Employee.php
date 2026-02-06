@@ -61,12 +61,35 @@ class Employee extends Model
     }
 
     /**
+     * Get the division associated with the employee.
+     */
+    public function division(): BelongsTo
+    {
+        return $this->belongsTo(Division::class);
+    }
+
+    public function suffix(): BelongsTo
+    {
+        return $this->belongsTo(Suffix::class);
+    }
+
+    public function sex(): BelongsTo
+    {
+        return $this->belongsTo(Sex::class);
+    }
+
+    /**
      * Get full name attribute
      */
     public function getFullNameAttribute(): string
     {
         $name = trim("{$this->first_name} {$this->middle_name} {$this->last_name}");
-        return $this->suffix ? "{$name} {$this->suffix}" : $name;
+        return $this->suffix ? "{$name} {$this->suffix->name}" : $name;
+    }
+
+    public function getSuffixDescAttribute(): string
+    {
+        return $this->suffix->name;
     }
 
     /**
