@@ -5,7 +5,7 @@ import { useToast } from "vue-toastification";
 
 // Accept `facilityTypes` as a prop from the parent (Inertia)
 const props = defineProps({
-  facilityTypes: {
+  officeTypes: {
     type: Array,
     required: true,
   },
@@ -14,7 +14,7 @@ const props = defineProps({
 const form = useForm({
   name: "",
   abbreviation: "",
-  facility_type_id: null,
+  office_type_id: null,
   is_active: true,
 });
 
@@ -84,17 +84,17 @@ const submit = () => {
                 </div>
               </div>
               <div class="col-md-12">
-                <label for="facility_type_id" class="form-label"
-                  >Facility Type</label
+                <label for="office_type_id" class="form-label"
+                  >Office Type</label
                 >
                 <select
-                  id="facility_type_id"
+                  id="office_type_id"
                   class="form-select"
-                  v-model="form.facility_type_id"
+                  v-model="form.office_type_id"
                 >
-                  <option value="" disabled>Select facility type</option>
+                  <option value="" disabled>Select office type</option>
                   <option
-                    v-for="type in facilityTypes"
+                    v-for="type in officeTypes"
                     :key="type.id"
                     :value="type.id"
                   >
@@ -102,7 +102,7 @@ const submit = () => {
                   </option>
                 </select>
                 <div class="invalid-feedback d-block">
-                  {{ form.errors.facility_type_id }}
+                  {{ form.errors.office_type_id }}
                 </div>
               </div>
               <div class="col-md-12">

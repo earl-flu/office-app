@@ -4,7 +4,7 @@ import { Head, useForm, Link } from "@inertiajs/vue3";
 import { useToast } from "vue-toastification";
 
 const props = defineProps({
-  facilityTypes: {
+  officeTypes: {
     type: Object,
     required: true,
   },
@@ -17,7 +17,7 @@ const props = defineProps({
 const form = useForm({
   name: props.office.name,
   abbreviation: props.office.abbreviation,
-  facility_type_id: props.office.facility_type_id,
+  office_type_id: props.office.office_type_id,
   is_active: props.office.is_active,
 });
 
@@ -105,17 +105,17 @@ const submit = () => {
               </div>
 
               <div class="col-md-12">
-                <label for="facility_type_id" class="form-label"
-                  >Facility Type</label
+                <label for="office_type_id" class="form-label"
+                  >Office Type</label
                 >
                 <select
                   class="form-select"
-                  v-model="form.facility_type_id"
-                  id="facility_type_id"
+                  v-model="form.office_type_id"
+                  id="office_type_id"
                 >
-                  <option disabled value="">Select Facility Type</option>
+                  <option disabled value="">Select Office Type</option>
                   <option
-                    v-for="type in facilityTypes"
+                    v-for="type in officeTypes"
                     :key="type.id"
                     :value="type.id"
                   >
@@ -123,7 +123,7 @@ const submit = () => {
                   </option>
                 </select>
                 <div class="invalid-feedback d-block">
-                  {{ form.errors.facility_type_id }}
+                  {{ form.errors.office_type_id }}
                 </div>
               </div>
               <div class="col-md-12">

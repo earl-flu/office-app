@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\FacilityType;
 use App\Models\Office;
+use App\Models\OfficeType;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Request as FacadesRequest;
@@ -15,11 +15,11 @@ class OfficeController extends Controller
      */
     public function index()
     {
-        $offices = Office::with('facilityType')
+        $offices = Office::with('officeType')
             ->orderBy('name')
             ->when(FacadesRequest::input('search'), function ($query, $search) {
                 $query->where('name', 'like', "%{$search}%")
-                    ->orWhereHas('facilityType', function ($q) use ($search) {
+                    ->orWhereHas('officeType', function ($q) use ($search) {
                         $q->where('name', 'like', "%{$search}%");
                     });
             })
@@ -41,7 +41,7 @@ class OfficeController extends Controller
         // dd(FacilityType::orderBy('name')->get());
         return Inertia::render(
             'Offices/Create',
-            ['facilityTypes' => FacilityType::orderBy('name')->get()]
+            ['officeTypes' => OfficeType::where('is_active', true)->orderBy('name')->get()]
         );
     }
 
@@ -53,7 +53,7 @@ class OfficeController extends Controller
         $validated = $request->validate([
             'name' => 'required|unique:offices,name',
             'abbreviation' => 'nullable|string|max:255',
-            'facility_type_id' => 'required|exists:facility_types,id',
+            'office_type_id' => 'required|exists:office_types,id',
             'is_active' => 'boolean',
         ]);
 
@@ -78,7 +78,7 @@ class OfficeController extends Controller
     {
         return Inertia::render('Offices/Edit', [
             'office' => $office,
-            'facilityTypes' => FacilityType::where('is_active', true)->get(['id', 'name'])
+            'officeTypes' => OfficeType::where('is_active', true)->get(['id', 'name'])
         ]);
     }
 
@@ -91,7 +91,7 @@ class OfficeController extends Controller
         $validated = $request->validate([
             'name' => 'required',
             'abbreviation' => 'nullable|string|max:255',
-            'facility_type_id' => 'required|exists:facility_types,id',
+            'office_type_id' => 'required|exists:office_types,id',
             'is_active' => 'boolean',
         ]);
 
