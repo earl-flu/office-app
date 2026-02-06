@@ -22,6 +22,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             TagSeeder::class,
 
+            MfoCategorySeeder::class,
+            MfoSeeder::class,
             SexSeeder::class,
             SuffixSeeder::class,
             ActivityTypesSeeder::class,

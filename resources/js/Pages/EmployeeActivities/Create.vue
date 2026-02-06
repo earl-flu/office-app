@@ -12,6 +12,10 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  mfos: {
+    type: Array,
+    default: () => [],
+  },
 });
 
 const form = useForm({
@@ -22,6 +26,7 @@ const form = useForm({
   remarks: "",
   time_spent_minutes: null,
   activity_date: new Date().toISOString().slice(0, 10),
+  mfo_id: "",
 });
 
 const submit = () => {
@@ -130,7 +135,7 @@ const submit = () => {
                 </div>
               </div>
 
-              <div class="col-md-4">
+              <div class="col-md-3">
                 <label for="status" class="form-label">Status *</label>
                 <select
                   class="form-select"
@@ -147,7 +152,24 @@ const submit = () => {
                   {{ form.errors.status }}
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-3">
+                <label for="mfo_id" class="form-label">MFO *</label>
+                <select
+                  class="form-select"
+                  v-model="form.mfo_id"
+                  id="mfo_id"
+                  required
+                >
+                  <option value="">Select MFO</option>
+                  <option v-for="mfo in mfos" :key="mfo.id" :value="mfo.id">
+                    {{ mfo.name }}
+                  </option>
+                </select>
+                <div class="invalid-feedback d-block">
+                  {{ form.errors.mfo_id }}
+                </div>
+              </div>
+              <div class="col-md-3">
                 <label for="activity_date" class="form-label"
                   >Activity Date *</label
                 >
@@ -162,7 +184,7 @@ const submit = () => {
                   {{ form.errors.activity_date }}
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-3">
                 <label for="time_spent_minutes" class="form-label"
                   >Time Spent (minutes)</label
                 >
