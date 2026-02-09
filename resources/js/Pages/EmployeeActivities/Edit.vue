@@ -16,17 +16,26 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  mfos: {
+    type: Array,
+    default: () => [],
+  },
+  activityStatuses: {
+    type: Array,
+    default: () => [],
+  },
 });
 
 const form = useForm({
   assigned_by_id: props.activity.assigned_by_id || null,
   activity_type_id: props.activity.activity_type_id || "",
   description: props.activity.description || "",
-  status: props.activity.status || "pending",
+  activity_status_id: props.activity.activity_status_id || "pending",
   remarks: props.activity.remarks || "",
   time_spent_minutes: props.activity.time_spent_minutes || null,
   activity_date:
     props.activity.activity_date || new Date().toISOString().slice(0, 10),
+  mfo_id: props.activity.mfo_id,
 });
 
 const submit = () => {
@@ -132,25 +141,47 @@ const submit = () => {
                 </div>
               </div>
 
-              <div class="col-md-4">
-                <label for="status" class="form-label">Status *</label>
+              <div class="col-md-3">
+                <label for="activity_status_id" class="form-label"
+                  >Status *</label
+                >
                 <select
                   class="form-select"
-                  v-model="form.status"
-                  id="status"
+                  v-model="form.activity_status_id"
+                  id="activity_status_id"
                   required
                 >
-                  <option value="pending">Pending</option>
-                  <option value="in_progress">In Progress</option>
-                  <option value="finished">Finished</option>
-                  <option value="cancelled">Cancelled</option>
+                  <option
+                    v-for="status in activityStatuses"
+                    :key="status.id"
+                    :value="status.id"
+                  >
+                    {{ status.description }}
+                  </option>
                 </select>
                 <div class="invalid-feedback d-block">
-                  {{ form.errors.status }}
+                  {{ form.errors.activity_status_id }}
+                </div>
+              </div>
+              <div class="col-md-3">
+                <label for="mfo_id" class="form-label">MFO *</label>
+                <select
+                  class="form-select"
+                  v-model="form.mfo_id"
+                  id="mfo_id"
+                  required
+                >
+                  <option value="">Select MFO</option>
+                  <option v-for="mfo in mfos" :key="mfo.id" :value="mfo.id">
+                    {{ mfo.code }}: {{ mfo.description }}
+                  </option>
+                </select>
+                <div class="invalid-feedback d-block">
+                  {{ form.errors.mfo_id }}
                 </div>
               </div>
 
-              <div class="col-md-4">
+              <div class="col-md-3">
                 <label for="activity_date" class="form-label"
                   >Activity Date *</label
                 >
@@ -166,7 +197,7 @@ const submit = () => {
                 </div>
               </div>
 
-              <div class="col-md-4">
+              <div class="col-md-3">
                 <label for="time_spent_minutes" class="form-label"
                   >Time Spent (minutes)</label
                 >

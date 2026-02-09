@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityStatus;
 use App\Models\EmployeeActivity;
 use App\Models\Employee;
 use App\Models\ActivityTypes;
@@ -19,11 +20,11 @@ class EmployeeActivitiesController extends Controller
     public function index()
     {
         // 1. Extract and sanitize filters
-        $filters = request()->only(['search', 'status', 'assigned_by_id', 'date_from', 'date_to', 'per_page']);
+        $filters = request()->only(['search', 'activity_status_id', 'assigned_by_id', 'date_from', 'date_to', 'per_page']);
 
         // 2. Build the query using the Scope
         $activities = EmployeeActivity::query()
-            ->with(['activityType', 'employee', 'assignedBy'])
+            ->withRelations() // This calls the scopeWithRelations() in your Model
             ->where('employee_id', auth()->id())
             ->filter($filters) // This calls the scopeFilter() in your Model
             ->latest('activity_date')
@@ -32,10 +33,15 @@ class EmployeeActivitiesController extends Controller
 
         return Inertia::render('EmployeeActivities/Index', [
             'activities' => $activities,
-            'filters' => request()->only(['search', 'status', 'assigned_by_id', 'date_from', 'date_to', 'per_page']),
-            'employees' => Employee::orderBy('last_name')->orderBy('first_name')->get(),
+            'filters' => $filters,
+            'employees' => Employee::where('is_active', true)
+                ->select('id', 'first_name', 'middle_name', 'last_name', 'suffix_id', 'employee_id')
+                ->orderBy('last_name')
+                ->orderBy('first_name')
+                ->get(),
             'activityTypes' => ActivityTypes::where('is_active', true)->orderBy('name')->get(),
             'mfos' => Mfo::where('is_active', true)->orderBy('description')->get(),
+            'activityStatuses' => ActivityStatus::where('is_active', true)->orderBy('description')->get(),
         ]);
     }
 
@@ -47,7 +53,8 @@ class EmployeeActivitiesController extends Controller
         return Inertia::render('EmployeeActivities/Create', [
             'employees' => Employee::orderBy('last_name')->orderBy('first_name')->get(),
             'activityTypes' => ActivityTypes::where('is_active', true)->orderBy('name')->get(),
-            'mfos' => Mfo::where('is_active', true)->orderBy('description')->get(),
+            'mfos' => Mfo::where('is_active', true)->orderBy('code')->get(),
+            'activityStatuses' => ActivityStatus::where('is_active', true)->orderBy('description')->get(),
         ]);
     }
 
@@ -60,10 +67,11 @@ class EmployeeActivitiesController extends Controller
             'assigned_by_id' => 'required|exists:employees,id',
             'activity_type_id' => 'required|exists:activity_types,id',
             'description' => 'required|string',
-            'status' => 'required|in:pending,in_progress,finished,cancelled',
+            'activity_status_id' => 'required|exists:activity_statuses,id',
             'activity_date' => 'required|date',
             'remarks' => 'nullable|string',
             'time_spent_minutes' => 'nullable|integer|min:0',
+            'mfo_id' => 'required|exists:mfos,id',
         ]);
 
         $validated['employee_id'] = $request->user()->id;
@@ -99,6 +107,8 @@ class EmployeeActivitiesController extends Controller
             'activity' => $employeeActivity,
             'employees' => Employee::orderBy('last_name')->orderBy('first_name')->get(),
             'activityTypes' => ActivityTypes::where('is_active', true)->orderBy('name')->get(),
+            'mfos' => Mfo::where('is_active', true)->orderBy('code')->get(),
+            'activityStatuses' => ActivityStatus::where('is_active', true)->orderBy('description')->get(),
         ]);
     }
 
@@ -111,10 +121,11 @@ class EmployeeActivitiesController extends Controller
             'assigned_by_id' => 'required|exists:employees,id',
             'activity_type_id' => 'required|exists:activity_types,id',
             'description' => 'required|string',
-            'status' => 'required|in:pending,in_progress,finished,cancelled',
+            'activity_status_id' => 'required|exists:activity_statuses,id',
             'remarks' => 'nullable|string',
             'time_spent_minutes' => 'nullable|integer|min:0',
             'activity_date' => 'required|date',
+            'mfo_id' => 'required|exists:mfos,id',
         ]);
 
         $employeeActivity->update($validated);

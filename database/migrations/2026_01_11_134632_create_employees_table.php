@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string('profile_image')->nullable();
             $table->foreignId('division_id')->nullable()->constrained('divisions');
             $table->foreignId('office_id')->nullable()->constrained('offices');
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

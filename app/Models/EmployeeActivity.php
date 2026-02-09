@@ -20,10 +20,10 @@ class EmployeeActivity extends Model
         'activity_type_id',
         'mfo_id',
         'description',
-        'status',
+        'activity_status_id',
         'remarks',
         'time_spent_minutes',
-        'activity_date'
+        'activity_date',
     ];
 
     /**
@@ -51,6 +51,11 @@ class EmployeeActivity extends Model
     public function assignedBy()
     {
         return $this->belongsTo(Employee::class, 'assigned_by_id');
+    }
+
+    public function mfo()
+    {
+        return $this->belongsTo(MFO::class, 'mfo_id');
     }
 
     /**
@@ -88,8 +93,8 @@ class EmployeeActivity extends Model
                     ->orWhereHas('assignedBy', fn($q) => $q->where('first_name', 'like', "%{$search}%")
                         ->orWhere('last_name', 'like', "%{$search}%"));
             });
-        })->when($filters['status'] ?? null, function ($q, $status) {
-            $q->where('status', $status);
+        })->when($filters['activity_status_id'] ?? null, function ($q, $activityStatusId) {
+            $q->where('activity_status_id', $activityStatusId);
         })->when($filters['assigned_by_id'] ?? null, function ($q, $assignedBy) {
             $q->where('assigned_by_id', $assignedBy);
         })->when($filters['date_from'] ?? null, function ($q, $from) {
@@ -97,6 +102,17 @@ class EmployeeActivity extends Model
         })->when($filters['date_to'] ?? null, function ($q, $to) {
             $q->whereDate('activity_date', '<=', $to);
         });
+    }
+
+    public function scopeWithRelations($query)
+    {
+        return $query->with([
+            'activityType',
+            'assignedBy:id,first_name,middle_name,last_name,suffix_id',
+            'activityStatus',
+            'mfo',
+            'employee:id,first_name,middle_name,last_name,suffix_id',
+        ]);
     }
 
     /**

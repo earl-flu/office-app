@@ -21,10 +21,18 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  mfos: {
+    type: Array,
+    default: () => [],
+  },
+  activityStatuses: {
+    type: Array,
+    default: () => [],
+  },
 });
 
 let search = ref(props.filters?.search || "");
-let status = ref(props.filters?.status || "");
+let activityStatusId = ref(props.filters?.activity_status_id || "");
 let assignedById = ref(props.filters?.assigned_by_id || "");
 let dateFrom = ref(props.filters?.date_from || "");
 let dateTo = ref(props.filters?.date_to || "");
@@ -35,7 +43,7 @@ const debouncedFetch = debounce(() => {
     route("employee-activities.index"),
     {
       search: search.value,
-      status: status.value,
+      activity_status_id: activityStatusId.value,
       assigned_by_id: assignedById.value,
       date_from: dateFrom.value,
       date_to: dateTo.value,
@@ -49,7 +57,7 @@ const debouncedFetch = debounce(() => {
 }, 300);
 
 watch(
-  [search, status, assignedById, dateFrom, dateTo, perPage],
+  [search, activityStatusId, assignedById, dateFrom, dateTo, perPage],
   debouncedFetch
 );
 </script>
@@ -97,13 +105,16 @@ watch(
               />
             </div>
             <div class="col-md-2">
-              <label for="status" class="form-label">Status</label>
-              <select id="status" class="form-select" v-model="status">
+              <label for="activity_status_id" class="form-label">Status</label>
+              <select
+                id="activity_status_id"
+                class="form-select"
+                v-model="activityStatusId"
+              >
                 <option value="">All</option>
-                <option value="pending">Pending</option>
-                <option value="in_progress">In Progress</option>
-                <option value="finished">Finished</option>
-                <option value="cancelled">Cancelled</option>
+                <option v-for="s in activityStatuses" :key="s.id" :value="s.id">
+                  {{ s.description }}
+                </option>
               </select>
             </div>
             <div class="col-md-2">
@@ -152,6 +163,7 @@ watch(
                   <th>Assigned By</th>
                   <th>Type</th>
                   <th>Description</th>
+                  <th>MFO</th>
                   <th>Time (min)</th>
                   <th>Status</th>
                   <th>Actions</th>
@@ -170,9 +182,12 @@ watch(
                         (activity.description.length > 60 ? "..." : "")
                     }}
                   </td>
+                  <td>
+                    {{ activity.mfo?.code || "-" }}
+                  </td>
                   <td>{{ activity.time_spent_minutes ?? "-" }}</td>
                   <td>
-                    <span
+                    <!-- <span
                       class="badge"
                       :class="{
                         'bg-warning text-dark': activity.status === 'pending',
@@ -182,7 +197,8 @@ watch(
                       }"
                     >
                       {{ activity.status.replace("_", " ") }}
-                    </span>
+                    </span> -->
+                    {{ activity.activity_status.description }}
                   </td>
                   <td>
                     <div class="d-flex gap-1">
