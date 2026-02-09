@@ -47,7 +47,7 @@ class EmployeeActivitiesController extends Controller
         return Inertia::render('EmployeeActivities/Create', [
             'employees' => Employee::orderBy('last_name')->orderBy('first_name')->get(),
             'activityTypes' => ActivityTypes::where('is_active', true)->orderBy('name')->get(),
-            'mfos' => Mfo::where('is_acive', true)->orderBy('description')->get(),
+            'mfos' => Mfo::where('is_active', true)->orderBy('description')->get(),
         ]);
     }
 

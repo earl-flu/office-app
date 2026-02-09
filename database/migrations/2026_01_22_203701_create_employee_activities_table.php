@@ -23,14 +23,14 @@ return new class extends Migration
             $table->foreignId('mfo_id')
                 ->constrained('mfos');
             $table->text('description');
-            $table->enum('status', ['pending', 'in_progress', 'finished', 'cancelled'])->default('pending');
+            $table->foreignId('activity_status_id')->constrained('activity_statuses');
             $table->text('remarks')->nullable();
             $table->integer('time_spent_minutes')->nullable()->comment('Time spent on activity in minutes');
             $table->timestamps();
         });
     }
 
-    /**
+    /**F
      * Reverse the migrations.
      */
     public function down(): void
